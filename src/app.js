@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { db } from "./config/dbConfig.js";
 import authRoutes from "./routes/auth.Routes.js";
+import urlRoutes from "./routes/url.Routes.js";
 
 dotenv.config();
 
@@ -10,7 +11,8 @@ const port = process.env.PORT || 5000;
 
 app.use(express.json());
 
- app.use(authRoutes);
+app.use(authRoutes);
+app.use("/urls", urlRoutes);
 
 db.connect((err, client) => {
   if (err) {
