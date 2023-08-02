@@ -1,4 +1,3 @@
-// controllers/linkController.js
 import { nanoid } from "nanoid";
 import { db } from "../config/dbConfig.js";
 
@@ -29,5 +28,27 @@ export const shortenUrl = async (req, res) => {
     res
       .status(500)
       .json({ error: "Erro interno do servidor ao encurtar a URL." });
+  }
+};
+
+export const getUrlById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Buscar a url encurtada no DB com base no ID
+    const result = await db.query("SELECT * FROM links WHERE id = $1", [id]);
+
+    // Verificar se a URL encurtada existe
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "URL encurtada não existe." });
+    }
+
+    const { short_code: shortUrl, original_url: url } = result.rows[0];
+    res.status(200).json({ id, shortUrl, url });
+  } catch (error) {
+    console.error("Erro ao buscar URL encurtada:", error);
+    res
+      .status(500)
+      .json({ error: "Erro interno do servidor ao buscar URL encurtada." });
   }
 };
