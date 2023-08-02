@@ -53,6 +53,39 @@ export const getUrlById = async (req, res) => {
   }
 };
 
+export const openUrl = async (req, res) => {
+  const { shortUrl } = req.params;
+
+  try {
+    // Buscar a URL encurtada no banco de dados com base no código curto (shortUrl)
+    const result = await db.query("SELECT * FROM links WHERE short_code = $1", [
+      shortUrl,
+    ]);
+
+    // Verificar se a URL encurtada existe
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "URL encurtada não existe." });
+    }
+
+    // Obter a URL original do banco de dados
+    const { original_url: originalUrl } = result.rows[0];
+
+    // Redirecionar o usuário para a URL original
+    res.redirect(originalUrl);
+
+    // Incrementar a contagem de visitas do link no banco de dados
+    await db.query(
+      "UPDATE links SET visit_count = visit_count + 1 WHERE short_code = $1",
+      [shortUrl]
+    );
+  } catch (error) {
+    console.error("Erro ao abrir URL encurtada:", error);
+    res
+      .status(500)
+      .json({ error: "Erro interno do servidor ao abrir URL encurtada." });
+  }
+};
+
 export const deleteUrl = async (req, res) => {
   const { id } = req.params;
 
