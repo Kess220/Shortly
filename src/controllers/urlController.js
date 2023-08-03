@@ -10,6 +10,13 @@ export const shortenUrl = async (req, res) => {
     return res.status(422).json({ error: "A URL é obrigatória." });
   }
 
+  // Expressão regular para validar o formato da URL
+  const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+
+  if (!url.match(urlRegex)) {
+    return res.status(422).json({ error: "URL inválida." });
+  }
+
   try {
     const shortCode = nanoid(8);
 
