@@ -1,12 +1,25 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { db } from "../config/dbConfig.js";
+import Joi from "joi";
 
 const generateAuthToken = (userId) => {
   return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "1h" });
 };
 
 export const signin = async (req, res) => {
+  // Definir o esquema de validação do body
+  const schema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+  });
+
+  const { error } = schema.validate(req.body);
+
+  if (error) {
+    return res.status(422).json({ error: "Dados inválidos no body." });
+  }
+
   const { email, password } = req.body;
 
   try {
