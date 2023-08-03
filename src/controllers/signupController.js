@@ -10,6 +10,13 @@ export const signup = async (req, res) => {
       .json({ error: "O campo 'name' deve ser uma string." });
   }
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res
+      .status(422)
+      .json({ error: "O campo 'email' deve ser um email válido." });
+  }
+
   try {
     // Verificar se o usuário já está cadastrado com o e-mail fornecido
     const existingUser = await db.query(
