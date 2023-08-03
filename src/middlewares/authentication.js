@@ -9,7 +9,10 @@ export const authenticate = (req, res, next) => {
   }
 
   try {
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const decodedToken = jwt.verify(
+      token,
+      process.env.JWT_SECRET || "chave_padrao"
+    );
     req.user = decodedToken;
     next();
   } catch (error) {
