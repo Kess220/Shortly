@@ -29,18 +29,15 @@ export const signin = async (req, res) => {
     // Gerar o token de autenticação
     const token = generateAuthToken(user.id);
 
-    // Configurar o cookie no cabeçalho da resposta
-    res.cookie("authToken", token, {
-      httpOnly: true,
-      secure: true, // Defina como true se você estiver usando HTTPS (ambiente de produção)
-    });
+    localStorage.setItem("authToken", token);
 
     // Responder com o token no corpo da resposta
     res.status(200).json({ token });
   } catch (error) {
     console.error("Erro ao autenticar usuário:", error);
-    res
-      .status(500)
-      .json({ error: "Erro interno do servidor ao autenticar usuário." });
+    res.status(500).json({
+      error: "Erro interno do servidor ao autenticar usuário.",
+      error,
+    });
   }
 };
