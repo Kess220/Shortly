@@ -62,7 +62,8 @@ export const signin = async (req, res) => {
     console.error("Erro ao autenticar usuário:", error);
     res.status(500).json({
       error: "Erro interno do servidor ao autenticar usuário.",
-      error,
+      message: error.message,
+      stack: error.stack,
     });
   }
 };
