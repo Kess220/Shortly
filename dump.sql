@@ -61,7 +61,8 @@ CREATE TABLE public.users (
     id integer NOT NULL,
     email character varying(255) NOT NULL,
     password character varying(255) NOT NULL,
-    name character varying(255)
+    name character varying(255),
+    created_at timestamp without time zone
 );
 
 
@@ -112,7 +113,7 @@ INSERT INTO public.links VALUES (8, 'https://www.example.com', 'p4lhJRmb', '2023
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.users VALUES (2, 'Kaio@driven.com.br', '$2b$10$ieEL4jSfXLgyQs77octN3.qek1AN3YzNJijgpejvYqpsfHdSC8nO.', 'Kaio');
+INSERT INTO public.users VALUES (2, 'Kaio@driven.com.br', '$2b$10$ieEL4jSfXLgyQs77octN3.qek1AN3YzNJijgpejvYqpsfHdSC8nO.', 'Kaio', NULL);
 
 
 --
