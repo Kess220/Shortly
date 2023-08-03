@@ -17,6 +17,12 @@ export const signup = async (req, res) => {
       .json({ error: "O campo 'email' deve ser um email válido." });
   }
 
+  if (typeof password !== "string") {
+    return res
+      .status(422)
+      .json({ error: "O campo 'password' deve ser uma string." });
+  }
+
   try {
     // Verificar se o usuário já está cadastrado com o e-mail fornecido
     const existingUser = await db.query(
