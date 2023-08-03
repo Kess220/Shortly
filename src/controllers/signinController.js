@@ -6,7 +6,9 @@ import Joi from "joi";
 
 dotenv.config();
 const generateAuthToken = (userId) => {
-  return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  return jwt.sign({ userId }, process.env.JWT_SECRET || "chave_padrao", {
+    expiresIn: "1h",
+  });
 };
 
 export const signin = async (req, res) => {
