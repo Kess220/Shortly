@@ -1,8 +1,10 @@
+import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { db } from "../config/dbConfig.js";
 import Joi from "joi";
 
+dotenv.config();
 const generateAuthToken = (userId) => {
   return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "1h" });
 };
