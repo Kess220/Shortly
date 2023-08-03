@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { db } from "../config/dbConfig.js";
 
 export const signup = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, confirmPassword } = req.body;
 
   if (typeof name !== "string") {
     return res
@@ -21,6 +21,12 @@ export const signup = async (req, res) => {
     return res
       .status(422)
       .json({ error: "O campo 'password' deve ser uma string." });
+  }
+
+  if (password !== confirmPassword) {
+    return res
+      .status(422)
+      .json({ error: "A senha e a confirmação de senha não coincidem." });
   }
 
   try {
