@@ -4,6 +4,12 @@ import { db } from "../config/dbConfig.js";
 export const signup = async (req, res) => {
   const { name, email, password } = req.body;
 
+  if (typeof name !== "string") {
+    return res
+      .status(422)
+      .json({ error: "O campo 'name' deve ser uma string." });
+  }
+
   try {
     // Verificar se o usuário já está cadastrado com o e-mail fornecido
     const existingUser = await db.query(
