@@ -29,7 +29,11 @@ export const signin = async (req, res) => {
     // Gerar o token de autenticação
     const token = generateAuthToken(user.id);
 
-    localStorage.setItem("authToken", token);
+    res.cookie("authToken", token, {
+      httpOnly: true,
+      sameSite: "strict",
+      maxAge: 3600000,
+    });
 
     // Responder com o token no corpo da resposta
     res.status(200).json({ token });
