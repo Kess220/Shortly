@@ -2,32 +2,7 @@ import bcrypt from "bcrypt";
 import { db } from "../config/dbConfig.js";
 
 export const signup = async (req, res) => {
-  const { name, email, password, confirmPassword } = req.body;
-
-  if (typeof name !== "string") {
-    return res
-      .status(422)
-      .json({ error: "O campo 'name' deve ser uma string." });
-  }
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return res
-      .status(422)
-      .json({ error: "O campo 'email' deve ser um email válido." });
-  }
-
-  if (typeof password !== "string") {
-    return res
-      .status(422)
-      .json({ error: "O campo 'password' deve ser uma string." });
-  }
-
-  if (password !== confirmPassword) {
-    return res
-      .status(422)
-      .json({ error: "A senha e a confirmação de senha não coincidem." });
-  }
+  const { name, email, password } = req.body;
 
   try {
     // Verificar se o usuário já está cadastrado com o e-mail fornecido
