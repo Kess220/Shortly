@@ -5,6 +5,7 @@ import { db } from "../config/dbConfig.js";
 import Joi from "joi";
 
 dotenv.config();
+
 const generateAuthToken = (userId) => {
   return jwt.sign({ userId }, process.env.JWT_SECRET || "chave_padrao", {
     expiresIn: "1h",
@@ -53,15 +54,7 @@ export const signin = async (req, res) => {
     console.log("Gerando token...");
     const token = generateAuthToken(user.id);
 
-    res.cookie("authToken", token, {
-      httpOnly: true,
-      sameSite: "strict",
-      maxAge: 3600000,
-    });
-
-    // Responder com o token no corpo da resposta
-    console.log("Autenticação bem-sucedida.");
-    res.status(200).json({ token });
+    res.status(200).json({ token }); // Responder apenas com o token no corpo da resposta
   } catch (error) {
     console.error("Erro ao autenticar usuário:", error);
     res.status(500).json({

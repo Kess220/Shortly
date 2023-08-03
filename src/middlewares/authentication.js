@@ -16,6 +16,7 @@ export const authenticate = (req, res, next) => {
     req.user = decodedToken;
     next();
   } catch (error) {
+    console.error("Erro ao verificar token:", error);
     return res.status(401).json({ error: "Token de autenticação inválido." });
   }
 };

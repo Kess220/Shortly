@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { db } from "./config/dbConfig.js";
 import authRoutes from "./routes/auth.Routes.js";
 import urlRoutes from "./routes/url.Routes.js";
+import userRoutes from "./routes/user.Routes.js";
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 
 app.use(authRoutes);
 app.use("/urls", urlRoutes);
+app.use("/users/me", userRoutes);
 
 db.connect((err, client) => {
   if (err) {
