@@ -2,9 +2,10 @@ import { nanoid } from "nanoid";
 import { db } from "../config/dbConfig.js";
 
 // Função para encurtar a URL
+
 export const shortenUrl = async (req, res) => {
   const { url } = req.body;
-  const userId = req.user?.id;
+  const userId = req.user?.userId; // Certifique-se de usar req.user.userId aqui
 
   if (!url) {
     return res.status(422).json({ error: "A URL é obrigatória." });
@@ -19,7 +20,6 @@ export const shortenUrl = async (req, res) => {
 
   try {
     const shortCode = nanoid(8);
-
     const createdAt = new Date();
 
     const result = await db.query(
