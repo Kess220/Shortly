@@ -74,13 +74,10 @@ export const openUrl = async (req, res) => {
       return res.status(404).json({ error: "URL encurtada não existe." });
     }
 
-    // Obter a URL original do banco de dados
     const { original_url: originalUrl } = result.rows[0];
 
-    // Redirecionar o usuário para a URL original
     res.redirect(originalUrl);
 
-    // Incrementar a contagem de visitas do link no banco de dados
     await db.query(
       "UPDATE links SET visit_count = visit_count + 1 WHERE short_code = $1",
       [shortUrl]
