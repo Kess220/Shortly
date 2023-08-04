@@ -36,7 +36,8 @@ export const getUserProfile = async (req, res) => {
       [userId]
     );
 
-    const totalVisits = visitCountQuery.rows[0].total_visits || 0;
+    // Converter a soma de visitas de string para número usando parseInt
+    const totalVisits = parseInt(visitCountQuery.rows[0].total_visits, 10) || 0;
 
     // Buscar as URLs encurtadas do usuário com a soma da quantidade de visitas de cada link
     const shortenedUrlsQuery = await db.query(
