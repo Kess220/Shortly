@@ -45,7 +45,13 @@ export const getUserProfile = async (req, res) => {
       [userId]
     );
 
-    const shortenedUrls = shortenedUrlsQuery.rows;
+    const shortenedUrls = shortenedUrlsQuery.rows.map((url) => {
+      const { shorturl, ...rest } = url;
+      return {
+        ...rest,
+        shortUrl: shorturl, // Renomeando a propriedade
+      };
+    });
 
     const userProfile = {
       id: user.id,
@@ -53,7 +59,6 @@ export const getUserProfile = async (req, res) => {
       visitCount: totalVisits,
       shortenedUrls: shortenedUrls,
     };
-
     // Responder com os dados do usuário
     res.status(200).json(userProfile);
   } catch (error) {
