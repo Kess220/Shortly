@@ -20,6 +20,7 @@ export const getUserProfile = async (req, res) => {
     const userQuery = await db.query("SELECT * FROM users WHERE id = $1", [
       userId,
     ]);
+    console.log("Resultado da consulta ao banco de dados:", userQuery.rows);
 
     const user = userQuery.rows[0];
 
