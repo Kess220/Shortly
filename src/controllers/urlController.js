@@ -101,6 +101,12 @@ export const deleteUrl = async (req, res) => {
       return res.status(404).json({ error: "URL encurtada não existe." });
     }
 
+    const link = result.rows[0];
+
+    if (link.userid !== req.user.userId) {
+      return res.status(401).json({ error: "Acesso não autorizado." });
+    }
+
     await db.query("DELETE FROM links WHERE id = $1", [id]);
 
     res.status(204).send();
