@@ -41,17 +41,16 @@ export const getUserProfile = async (req, res) => {
 
     // Buscar as URLs encurtadas do usuário com a soma da quantidade de visitas de cada link
     const shortenedUrlsQuery = await db.query(
-      "SELECT id, short_code AS shortUrl, original_url AS url, visit_count FROM links WHERE userid = $1",
+      "SELECT id, short_code AS shortUrl, original_url AS url, SUM(visit_count) AS visitCount FROM links WHERE userid = $1 GROUP BY id, short_code, original_url",
       [userId]
     );
 
-    const shortenedUrls = shortenedUrlsQuery.rows.map((url) => {
-      const { shorturl, ...rest } = url;
-      return {
-        ...rest,
-        shortUrl: shorturl, // Renomeando a propriedade
-      };
-    });
+    const shortenedUrls = shortenedUrlsQuery.rows.map((url) => ({
+      id: url.id,
+      shortUrl: url.shorturl,
+      url: url.url,
+      visitCount: url.visitcount,
+    }));
 
     const userProfile = {
       id: user.id,
