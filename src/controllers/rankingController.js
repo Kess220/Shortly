@@ -6,8 +6,8 @@ export const getRanking = async (req, res) => {
       SELECT
         u.id,
         u.name,
-        COUNT(l.id) AS "linksCount", -- Usando aspas para manter o nome
-        SUM(l.visit_count) AS "visitCount" -- Usando aspas para manter o nome
+        CAST(COUNT(l.id) AS INTEGER) AS "linksCount",
+        CAST(SUM(l.visit_count) AS INTEGER) AS "visitCount"
       FROM
         users u
       LEFT JOIN
@@ -15,7 +15,7 @@ export const getRanking = async (req, res) => {
       GROUP BY
         u.id, u.name
       ORDER BY
-        "visitCount" 
+        "visitCount" DESC
       LIMIT 10;
     `;
 
