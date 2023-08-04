@@ -65,3 +65,4 @@ export const getUserProfile = async (req, res) => {
     res.status(500).json({ error: ERROR_MESSAGES.SERVER_ERROR });
   }
 };
+
